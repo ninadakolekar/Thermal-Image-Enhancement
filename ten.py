@@ -33,7 +33,7 @@ from tqdm import tqdm
 # In[29]:
 
 
-batch_size = 2048
+batch_size = 256
 learning_rate = 0.001
 num_epochs = 100
 weight_decay = 5e-4
@@ -156,19 +156,6 @@ def imsave(tensor, filepath):
     image = unloader(image)
     image.save(filepath)
 
-
-# In[37]:
-
-
-def adjust_learning_rate(optimizer, epoch):
-    """Sets the learning rate to the initial LR decayed by 10 every 30 epochs"""
-    learning_rate = learning_rate/10
-    logs.write(f'Learning Rate set to {learning_rate}\n')
-    print(f'Learning Rate set to {learning_rate}')
-    for param_group in optimizer.param_groups:
-        param_group['lr'] = learning_rate
-
-
 # In[38]:
 
 
@@ -183,9 +170,14 @@ def save_checkpoint(state, output_dir, filename):
 
 def main():
 
-    model_output_dir = '../output/try2/model'
+    model_output_dir = '../output/try4/model'
 
-    logs = open('../output/try2/logs.txt',"w")
+    logs = open('../output/try4/logs.txt',"w")
+    logs.write('Thermal Enhancement Network (TEN) - Parameters\n\n')
+    logs.write(f'Batch Size: {batch_size}\n')
+    logs.write(f'Total Epochs: {num_epochs}\n')
+    logs.write(f'Weight Decay: {weight_decay}\n')
+    logs.write(f'Scale Factor: {scale_factor}\n\n')
     logs.write('Thermal Enhancement Network (TEN) - Results\n\n')
 
     total_epoch_time = 0
@@ -196,8 +188,8 @@ def main():
 
         epoch_num+=1
 
-        logs.write('Epoch {epoch_num} Start')
-        print(f'<----- START EPOCH {epoch_num} ------->\n')
+        logs.write(f'\nEpoch {epoch_num} Start')
+        print(f'\n<----- START EPOCH {epoch_num} ------->\n')
 
         start = time()
 
@@ -214,7 +206,7 @@ def main():
 
             # save results
             pict = output.cpu().data
-            imsave(pict[num],f'../output/try2/r_{epoch+1}_{imgName[num]}')
+            imsave(pict[num],f'../output/try4/r_{epoch+1}_{imgName[num]}')
             logs.write(f'Input & Output Images Saved: Epoch {epoch+1} Index {ind} Image {imgName[num]}')
             print(f'Epoch {epoch+1} Index {ind} Image {imgName[num]} : Input & Output Images Saved')
 
