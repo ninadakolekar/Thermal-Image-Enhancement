@@ -63,8 +63,6 @@ def train_and_validate(dataset_path,batch_size,scale_factor,num_epochs,learning_
 	if verbose:
 		print('Adam optimizer loaded')
 
-	optimizer.zero_grad()
-
 	total_epoch_time = 0
 	losses = []
 	
@@ -86,6 +84,8 @@ def train_and_validate(dataset_path,batch_size,scale_factor,num_epochs,learning_
 		# For each batch
 		batch = 1
 		for patches,gt in dataset(dataset_path,batch_size,scale_factor):
+
+			optimizer.zero_grad()
 
 			if cuda:
 				patches = patches.cuda()

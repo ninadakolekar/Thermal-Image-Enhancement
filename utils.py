@@ -12,6 +12,7 @@ def blur(patch,scale_factor):
     return patch
 
 def upscale(patch,scale_factor):
+    # return patch """ To disable upscale, uncomment this line """
     patch = imresize(patch,(36*scale_factor,36*scale_factor),interp='cubic')
     return patch
 
